@@ -377,8 +377,9 @@ func machineDeployments(cluster *rancherv1.Cluster, capiCluster *capi.Cluster, d
 					// RollingUpdate is the default, so no harm in setting it here.
 					Type: capi.RollingUpdateMachineDeploymentStrategyType,
 					RollingUpdate: &capi.MachineRollingUpdateDeployment{
-						// Delete oldest machines by default.
-						DeletePolicy: &[]string{string(capi.OldestMachineSetDeletePolicy)}[0],
+						// Use random delete policy because of
+						// https://github.com/rancher/rancher/issues/42582
+						DeletePolicy: &[]string{string(capi.RandomMachineSetDeletePolicy)}[0],
 					},
 				},
 				Template: capi.MachineTemplateSpec{
